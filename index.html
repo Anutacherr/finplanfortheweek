@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Финансовый план на неделю</title>
 
     <!-- Шрифты -->
@@ -13,10 +13,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
+        /* Общие стили */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -32,33 +34,51 @@
             margin: 0 auto;
         }
 
+        /* Страницы */
         .page {
             width: 100%;
             margin-bottom: 40px;
             background: white;
             padding: 20px;
             box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            border-radius: 6px;
         }
 
+        /* Заголовок */
         .header h1 {
             text-align: center;
             font-size: 24px;
             margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
+        /* Блок дат */
         .date-range {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .date-input {
             border: none;
-            border-bottom: 1px solid #000;
+            border-bottom: 1.5px solid #000;
             font-size: 16px;
             text-align: center;
             width: 180px;
             background: transparent;
             padding: 5px 0;
+        }
+
+        /* Трекер привычек */
+        .habits-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
         }
 
         .habit-row {
@@ -95,7 +115,7 @@
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
-            border: 1px solid #000;
+            border: 1.5px solid #000;
             cursor: pointer;
         }
 
@@ -112,19 +132,7 @@
             text-transform: lowercase;
         }
 
-        .section-title {
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-
-        .focus-question {
-            text-align: center;
-            font-style: italic;
-            margin-bottom: 15px;
-        }
-
+        /* Цели */
         .goals-container {
             display: flex;
             justify-content: space-between;
@@ -166,12 +174,14 @@
             margin: 20px 0;
         }
 
+        /* Подвал */
         .footer {
             text-align: center;
             font-size: 12px;
             margin-top: 30px;
         }
 
+        /* Кнопки действий */
         .action-buttons {
             display: flex;
             justify-content: space-around;
@@ -192,10 +202,11 @@
             border-radius: 4px;
             flex: 1;
             min-width: 120px;
+            text-align: center;
         }
 
+        /* Стили для печати */
         @media print {
-            .action-buttons { display: none; }
             .page {
                 page-break-after: always;
                 width: 210mm;
@@ -205,35 +216,20 @@
                 box-shadow: none;
                 background: white;
             }
-        }
-
-        /* Тост */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 14px;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .notification.show {
-            opacity: 1;
+            .action-buttons {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Страница 1 -->
+        <!-- Первая страница -->
         <div class="page" id="page1">
             <div class="header"><h1>ФИНАНСОВЫЙ ПЛАН НА НЕДЕЛЮ</h1></div>
             <div class="date-range"><input type="text" class="date-input" id="dateRange" placeholder="дд.мм - дд.мм"></div>
+
+            <!-- Трекер привычек -->
             <div class="habits-section">
                 <h2 class="section-title">ТРЕКЕР ПРИВЫЧЕК</h2>
                 <div class="habit-row">
@@ -251,7 +247,7 @@
             </div>
         </div>
 
-        <!-- Страница 2 -->
+        <!-- Вторая страница -->
         <div class="page" id="page2">
             <h2 class="section-title">НАМЕРЕНИЕ:</h2>
             <p class="note">Цель в действии<br>+ состояние в котором мы это будем делать.</p>
@@ -270,13 +266,10 @@
         </div>
     </div>
 
-    <!-- Тост -->
-    <div class="notification" id="toast"></div>
-
     <script>
         const { jsPDF } = window.jspdf;
 
-        // Автоматическое изменение высоты textarea
+        // Автовысота textarea
         function autoResizeTextarea(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = textarea.scrollHeight + 'px';
@@ -291,7 +284,6 @@
                 if (el.type === 'checkbox') localStorage.setItem(el.id, el.checked);
                 else localStorage.setItem(el.id, el.value);
             });
-            showToast('✅ Сохранено');
         }
 
         // Очистка данных
@@ -302,7 +294,6 @@
                     else el.value = '';
                     localStorage.removeItem(el.id);
                 });
-                showToast('🗑 Очищено');
             }
         }
 
@@ -313,7 +304,6 @@
                 if (val !== null) {
                     if (el.type === 'checkbox') el.checked = val === 'true';
                     else el.value = val;
-                    if (el.tagName === 'TEXTAREA') autoResizeTextarea(el);
                 }
             });
         }
@@ -356,16 +346,6 @@
             }
 
             buttons.style.display = originalDisplay;
-        }
-
-        // Тост-уведомление
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
         }
 
         // Инициализация
