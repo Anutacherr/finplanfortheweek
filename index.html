@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Финансовый план на неделю</title>
 
     <!-- Шрифты -->
@@ -13,7 +13,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        /* Общие стили */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -209,7 +208,7 @@
             }
         }
 
-        /* Тост-уведомления */
+        /* Тост */
         .notification {
             position: fixed;
             bottom: 20px;
@@ -235,43 +234,72 @@
         <!-- Первая страница -->
         <div class="page" id="page1">
             <div class="header"><h1>ФИНАНСОВЫЙ ПЛАН НА НЕДЕЛЮ</h1></div>
-            <div class="date-range">
-                <input type="text" class="date-input" id="dateRange" placeholder="дд.мм - дд.мм">
-            </div>
+            <div class="date-range"><input type="text" class="date-input" id="dateRange" placeholder="дд.мм - дд.мм"></div>
 
             <div class="habits-section">
                 <h2 class="section-title">ТРЕКЕР ПРИВЫЧЕК</h2>
                 <div class="habit-row">
                     <textarea class="habit-input" placeholder="Привычка 1" id="habit1"></textarea>
                     <div class="days-container">
-                        <div class="day-wrapper">
-                            <input type="checkbox" class="day-checkbox" id="habit1-mon">
-                            <span class="day-label">пн</span>
-                        </div>
-                        <div class="day-wrapper">
-                            <input type="checkbox" class="day-checkbox" id="habit1-tue">
-                            <span class="day-label">вт</span>
-                        </div>
-                        <div class="day-wrapper">
-                            <input type="checkbox" class="day-checkbox" id="habit1-wed">
-                            <span class="day-label">ср</span>
-                        </div>
-                        <div class="day-wrapper">
-                            <input type="checkbox" class="day-checkbox" id="habit1-thu">
-                            <span class="day-label">чт</span>
-                        </div>
-                        <div class="day-wrapper">
-                            <input type="checkbox" class="day-checkbox" id="habit1-fri">
-                            <span class="day-label">пт</span>
-                        </div>
-                        <div class="day-wrapper">
-                            <input type="checkbox" class="day-checkbox" id="habit1-sat">
-                            <span class="day-label">сб</span>
-                        </div>
-                        <div class="day-wrapper">
-                            <input type="checkbox" class="day-checkbox" id="habit1-sun">
-                            <span class="day-label">вс</span>
-                        </div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-mon"><span class="day-label">пн</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-tue"><span class="day-label">вт</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-wed"><span class="day-label">ср</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-thu"><span class="day-label">чт</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-fri"><span class="day-label">пт</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-sat"><span class="day-label">сб</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-sun"><span class="day-label">вс</span></div>
+                    </div>
+                </div>
+                <div class="habit-row">
+                    <textarea class="habit-input" placeholder="Привычка 2" id="habit2"></textarea>
+                    <div class="days-container">
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit2-mon"><span class="day-label">пн</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit2-tue"><span class="day-label">вт</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit2-wed"><span class="day-label">ср</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit2-thu"><span class="day-label">чт</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit2-fri"><span class="day-label">пт</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit2-sat"><span class="day-label">сб</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit2-sun"><span class="day-label">вс</span></div>
+                    </div>
+                </div>
+                <div class="habit-row">
+                    <textarea class="habit-input" placeholder="Привычка 3" id="habit3"></textarea>
+                    <div class="days-container">
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit3-mon"><span class="day-label">пн</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit3-tue"><span class="day-label">вт</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit3-wed"><span class="day-label">ср</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit3-thu"><span class="day-label">чт</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit3-fri"><span class="day-label">пт</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit3-sat"><span class="day-label">сб</span></div>
+                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit3-sun"><span class="day-label">вс</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="goals-section">
+                <h2 class="section-title">ФОКУС НЕДЕЛИ</h2>
+                <p class="focus-question">На чем ты сконцентрируешься на этой неделе? Выбери три главные цели.</p>
+                <div class="goals-container">
+                    <div class="goal-column">
+                        <textarea class="goal-input" placeholder="ЦЕЛЬ 1" id="goal1"></textarea>
+                        <p class="note">Этапы достижения</p>
+                        <textarea class="step-input" placeholder="○" id="goal1-step1"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal1-step2"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal1-step3"></textarea>
+                    </div>
+                    <div class="goal-column">
+                        <textarea class="goal-input" placeholder="ЦЕЛЬ 2" id="goal2"></textarea>
+                        <p class="note">Этапы достижения</p>
+                        <textarea class="step-input" placeholder="○" id="goal2-step1"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal2-step2"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal2-step3"></textarea>
+                    </div>
+                    <div class="goal-column">
+                        <textarea class="goal-input" placeholder="ЦЕЛЬ 3" id="goal3"></textarea>
+                        <p class="note">Этапы достижения</p>
+                        <textarea class="step-input" placeholder="○" id="goal3-step1"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal3-step2"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal3-step3"></textarea>
                     </div>
                 </div>
             </div>
@@ -281,12 +309,20 @@
         <div class="page" id="page2">
             <h2 class="section-title">НАМЕРЕНИЕ:</h2>
             <p class="note">Цель в действии<br>+ состояние в котором мы это будем делать.</p>
+            <p class="note"><strong>Важный момент:</strong> намерение всегда ставится из позиции быть (а не иметь).</p>
             <textarea class="large-input" placeholder="Ваше намерение" id="intention"></textarea>
 
             <div class="divider"></div>
             <h2 class="section-title">НАГРАДА</h2>
             <p class="note">Чем я себя награжу за следование своим целям?</p>
             <textarea class="large-input" placeholder="Ваша награда" id="reward"></textarea>
+
+            <div class="divider"></div>
+            <h2 class="section-title">РЕФЛЕКСИЯ</h2>
+            <p class="note">Что у меня хорошо получилось сделать на этой неделе?</p>
+            <textarea class="large-input" placeholder="Ваши успехи" id="successes"></textarea>
+            <p class="note">Что я сделаю по-другому на следующей неделе?</p>
+            <textarea class="large-input" placeholder="Ваши планы на улучшения" id="improvements"></textarea>
 
             <div class="action-buttons">
                 <button class="action-button" id="saveData">Сохранить</button>
@@ -303,7 +339,6 @@
     <script>
         const { jsPDF } = window.jspdf;
 
-        // Автовысота textarea
         function autoResizeTextarea(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = textarea.scrollHeight + 'px';
@@ -312,7 +347,6 @@
         document.querySelectorAll('textarea').forEach(autoResizeTextarea);
         document.querySelectorAll('textarea').forEach(ta => ta.addEventListener('input', () => autoResizeTextarea(ta)));
 
-        // Сохранение данных
         function saveAllData() {
             document.querySelectorAll('[id]').forEach(el => {
                 if (el.type === 'checkbox') localStorage.setItem(el.id, el.checked);
@@ -321,7 +355,6 @@
             showToast('✅ Сохранено');
         }
 
-        // Очистка данных
         function clearAllData() {
             if (confirm('⚠️ Очистить все данные?')) {
                 document.querySelectorAll('[id]').forEach(el => {
@@ -333,7 +366,6 @@
             }
         }
 
-        // Загрузка данных
         function loadSavedData() {
             document.querySelectorAll('[id]').forEach(el => {
                 const val = localStorage.getItem(el.id);
@@ -344,7 +376,6 @@
             });
         }
 
-        // Экспорт в PDF
         async function exportToPDF() {
             const doc = new jsPDF({
                 orientation: 'portrait',
@@ -365,7 +396,6 @@
             doc.save('Финансовый_план_на_неделю.pdf');
         }
 
-        // Экспорт в PNG
         async function exportToPNG() {
             const buttons = document.querySelector('.action-buttons');
             const originalDisplay = buttons.style.display;
@@ -384,7 +414,6 @@
             buttons.style.display = originalDisplay;
         }
 
-        // Тост-уведомление
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -394,7 +423,6 @@
             }, 2000);
         }
 
-        // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
             loadSavedData();
 
