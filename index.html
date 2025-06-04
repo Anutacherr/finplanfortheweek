@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Финансовый план на неделю</title>
 
     <!-- Шрифты -->
@@ -13,12 +13,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        /* Базовые стили */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -27,23 +25,11 @@
             color: #000;
             line-height: 1.4;
             padding: 10px;
-            max-width: 100%;
-            touch-action: manipulation;
-            -webkit-text-size-adjust: 100%;
-            -webkit-print-color-adjust: exact;
-        }
-
-        h1, h2, h3 {
-            font-weight: normal;
-            text-transform: uppercase;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
 
         .page {
@@ -51,18 +37,13 @@
             margin-bottom: 40px;
             background: white;
             padding: 20px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         .header h1 {
+            text-align: center;
             font-size: 24px;
-            letter-spacing: 1px;
             margin-bottom: 10px;
         }
 
@@ -85,14 +66,6 @@
             margin-bottom: 30px;
         }
 
-        .section-title {
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-        }
-
         .habit-row {
             display: flex;
             align-items: flex-start;
@@ -101,7 +74,7 @@
 
         .habit-input {
             width: 50%;
-            min-height: 20px;
+            min-height: 24px;
             resize: none;
             border: none;
             border-bottom: 1px solid #000;
@@ -119,42 +92,48 @@
         }
 
         .day-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .day-label {
-            font-size: 10px;
-            margin-top: 2px;
-            text-transform: lowercase;
+            text-align: center;
         }
 
         .day-checkbox {
             appearance: none;
             -webkit-appearance: none;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border: 1.5px solid #000;
-            position: relative;
             cursor: pointer;
         }
 
         .day-checkbox:checked::after {
             content: "✓";
-            color: #000;
+            display: block;
+            text-align: center;
             font-size: 16px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            color: #000;
+        }
+
+        .day-label {
+            font-size: 10px;
+            text-transform: lowercase;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .focus-question {
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 15px;
         }
 
         .goals-container {
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            margin-bottom: 30px;
         }
 
         .goal-column {
@@ -165,7 +144,7 @@
         .step-input,
         .large-input {
             width: 100%;
-            min-height: 20px;
+            min-height: 24px;
             resize: none;
             border: none;
             border-bottom: 1px solid #000;
@@ -190,12 +169,6 @@
         .divider {
             border-top: 1px solid #000;
             margin: 20px 0;
-        }
-
-        .focus-question {
-            font-style: italic;
-            text-align: center;
-            margin-bottom: 15px;
         }
 
         .footer {
@@ -228,58 +201,34 @@
         }
 
         @media print {
-            body {
-                background-color: transparent;
-                padding: 0;
-            }
-            .container {
-                max-width: 100%;
-                height: auto;
-            }
+            .action-buttons { display: none; }
             .page {
                 page-break-after: always;
-                margin: 0;
-                padding: 15px;
+                width: 210mm;
+                height: 297mm;
+                margin: 0 auto 20px;
+                padding: 20px;
                 box-shadow: none;
-                background: transparent;
-                width: 100%;
-                height: 100vh;
-            }
-            .page:last-child {
-                page-break-after: auto;
-            }
-            .action-buttons {
-                display: none;
+                background: white;
             }
         }
 
-        /* Тост */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 14px;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .notification.show {
-            opacity: 1;
+        /* Масштабирование для мобильных устройств */
+        .mobile-scaling {
+            transform: scale(0.8);
+            transform-origin: top left;
+            width: 125%;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="container">
         <!-- Первая страница -->
         <div class="page" id="page1">
             <div class="header"><h1>ФИНАНСОВЫЙ ПЛАН НА НЕДЕЛЮ</h1></div>
-            <div class="date-range"><input type="text" class="date-input" id="dateRange" placeholder="дд.мм - дд.мм"></div>
+            <div class="date-range">
+                <input type="text" class="date-input" id="dateRange" placeholder="дд.мм - дд.мм">
+            </div>
 
             <div class="habits-section">
                 <h2 class="section-title">ТРЕКЕР ПРИВЫЧЕК</h2>
@@ -385,11 +334,23 @@
         </div>
     </div>
 
-    <!-- Тост -->
-    <div class="notification" id="toast"></div>
-
     <script>
-        const { jsPDF } = window.jspdf;
+        // Установка текущих дат
+        function setCurrentWeekDates() {
+            const now = new Date();
+            const dayOfWeek = now.getDay(); // 0 - воскресенье
+            const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + diffToMonday);
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+
+            const formatDate = (date) => {
+                return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}`;
+            };
+
+            document.getElementById('dateRange').value = `${formatDate(monday)} - ${formatDate(sunday)}`;
+        }
 
         // Автовысота textarea
         function autoResizeTextarea(textarea) {
@@ -397,43 +358,93 @@
             textarea.style.height = textarea.scrollHeight + 'px';
         }
 
-        document.querySelectorAll('textarea').forEach(autoResizeTextarea);
-        document.querySelectorAll('textarea').forEach(ta => ta.addEventListener('input', () => autoResizeTextarea(ta)));
+        function resetTextareaHeight(textarea) {
+            textarea.style.height = '24px';
+        }
+
+        function setupAutoResize() {
+            const textareas = document.querySelectorAll('textarea');
+            textareas.forEach(textarea => {
+                autoResizeTextarea(textarea);
+                textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+            });
+        }
 
         // Сохранение данных
         function saveAllData() {
             document.querySelectorAll('[id]').forEach(el => {
-                if (el.type === 'checkbox') localStorage.setItem(el.id, el.checked);
-                else localStorage.setItem(el.id, el.value);
+                const value = el.type === 'checkbox' ? el.checked : el.value;
+                localStorage.setItem(el.id, value);
             });
-            showToast('✅ Сохранено');
         }
 
         // Очистка данных
         function clearAllData() {
-            if (confirm('⚠️ Очистить все данные?')) {
-                document.querySelectorAll('[id]').forEach(el => {
-                    if (el.type === 'checkbox') el.checked = false;
-                    else el.value = '';
-                    localStorage.removeItem(el.id);
+            if (confirm('Вы уверены, что хотите очистить все данные? Это действие нельзя отменить.')) {
+                const elements = [
+                    'dateRange', 'intention', 'reward', 'successes', 'improvements',
+                    'habit1', 'habit2', 'habit3',
+                    'goal1', 'goal1-step1', 'goal1-step2', 'goal1-step3',
+                    'goal2', 'goal2-step1', 'goal2-step2', 'goal2-step3',
+                    'goal3', 'goal3-step1', 'goal3-step2', 'goal3-step3',
+                    'habit1-mon', 'habit1-tue', 'habit1-wed', 'habit1-thu', 'habit1-fri', 'habit1-sat', 'habit1-sun',
+                    'habit2-mon', 'habit2-tue', 'habit2-wed', 'habit2-thu', 'habit2-fri', 'habit2-sat', 'habit2-sun',
+                    'habit3-mon', 'habit3-tue', 'habit3-wed', 'habit3-thu', 'habit3-fri', 'habit3-sat', 'habit3-sun'
+                ];
+
+                elements.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (element.type === 'checkbox') {
+                            element.checked = false;
+                        } else {
+                            element.value = '';
+                            resetTextareaHeight(element);
+                        }
+                        localStorage.removeItem(id);
+                    }
                 });
-                showToast('🗑 Очищено');
+
+                setCurrentWeekDates();
             }
         }
 
         // Загрузка данных
         function loadSavedData() {
-            document.querySelectorAll('[id]').forEach(el => {
-                const val = localStorage.getItem(el.id);
-                if (val !== null) {
-                    if (el.type === 'checkbox') el.checked = val === 'true';
-                    else el.value = val;
+            const elements = [
+                'dateRange', 'intention', 'reward', 'successes', 'improvements',
+                'habit1', 'habit2', 'habit3',
+                'goal1', 'goal1-step1', 'goal1-step2', 'goal1-step3',
+                'goal2', 'goal2-step1', 'goal2-step2', 'goal2-step3',
+                'goal3', 'goal3-step1', 'goal3-step2', 'goal3-step3',
+                'habit1-mon', 'habit1-tue', 'habit1-wed', 'habit1-thu', 'habit1-fri', 'habit1-sat', 'habit1-sun',
+                'habit2-mon', 'habit2-tue', 'habit2-wed', 'habit2-thu', 'habit2-fri', 'habit2-sat', 'habit2-sun',
+                'habit3-mon', 'habit3-tue', 'habit3-wed', 'habit3-thu', 'habit3-fri', 'habit3-sat', 'habit3-sun'
+            ];
+
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const savedValue = localStorage.getItem(id);
+                    if (savedValue !== null) {
+                        if (element.type === 'checkbox') {
+                            element.checked = savedValue === 'true';
+                        } else {
+                            element.value = savedValue;
+                            autoResizeTextarea(element);
+                        }
+                    }
                 }
             });
+
+            if (!localStorage.getItem('dateRange')) {
+                setCurrentWeekDates();
+            }
         }
 
         // Экспорт в PDF
         async function exportToPDF() {
+            const { jsPDF } = window.jspdf;
             const doc = new jsPDF({
                 orientation: 'portrait',
                 unit: 'mm',
@@ -451,6 +462,7 @@
                     if (page.id !== 'page2') doc.addPage();
                 });
             }
+
             doc.save('Финансовый_план_на_неделю.pdf');
         }
 
@@ -473,19 +485,25 @@
             buttons.style.display = originalDisplay;
         }
 
-        // Тост-уведомление
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
+        // Масштабирование под мобильные устройства
+        function applyMobileScaling() {
+            const container = document.getElementById('container');
+
+            if (window.innerWidth < 768 && window.innerHeight > window.innerWidth) {
+                container.classList.add('mobile-scaling');
+            } else {
+                container.classList.remove('mobile-scaling');
+            }
         }
 
         // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
+            setCurrentWeekDates();
             loadSavedData();
+            setupAutoResize();
+
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', saveAllData));
+            document.querySelectorAll('textarea, input[type="text"]').forEach(ta => ta.addEventListener('input', saveAllData));
 
             document.getElementById('saveData').addEventListener('click', saveAllData);
             document.getElementById('clearData').addEventListener('click', clearAllData);
@@ -493,8 +511,8 @@
             document.getElementById('exportPDF').addEventListener('click', exportToPDF);
             document.getElementById('exportPNG').addEventListener('click', exportToPNG);
 
-            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', saveAllData));
-            document.querySelectorAll('textarea, input[type="text"]').forEach(ta => ta.addEventListener('input', saveAllData));
+            applyMobileScaling();
+            window.addEventListener('resize', applyMobileScaling);
         });
     </script>
 </body>
