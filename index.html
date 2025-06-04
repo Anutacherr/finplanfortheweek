@@ -323,13 +323,11 @@
         @media (max-width: 600px) and (orientation: portrait) {
             body {
                 padding: 5px;
-                zoom: 0.9;
             }
             
             .container {
                 max-width: 100%;
-                transform: scale(0.95);
-                transform-origin: top center;
+                transform: none;
             }
             
             .page {
@@ -338,11 +336,31 @@
             }
             
             .header h1 {
-                font-size: 20px;
+                font-size: 18px;
+                margin-bottom: 5px;
+            }
+            
+            .date-range {
+                margin-bottom: 15px;
+            }
+            
+            .date-input {
+                font-size: 14px;
+                width: 150px;
+            }
+            
+            .habits-section, .goals-section {
+                margin-bottom: 20px;
+            }
+            
+            .section-title {
+                font-size: 16px;
+                margin-bottom: 10px;
             }
             
             .habit-row {
                 flex-direction: column;
+                margin-bottom: 10px;
             }
             
             .habit-input,
@@ -351,12 +369,15 @@
             }
             
             .habit-input {
-                min-height: 50px;
+                min-height: 40px;
                 font-size: 13px;
+                margin-right: 0;
+                margin-bottom: 5px;
             }
             
             .days-container {
-                margin-top: 10px;
+                margin-top: 5px;
+                justify-content: space-around;
             }
             
             .goals-container {
@@ -365,16 +386,46 @@
             
             .goal-column {
                 width: 100%;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
             }
             
-            .goal-input, .step-input {
+            .goal-input {
+                min-height: 50px;
                 font-size: 13px;
             }
             
+            .step-input {
+                min-height: 30px;
+                font-size: 12px;
+            }
+            
             .day-checkbox {
-                width: 22px;
-                height: 22px;
+                width: 20px;
+                height: 20px;
+            }
+            
+            .day-label {
+                font-size: 9px;
+            }
+            
+            .focus-question {
+                font-size: 13px;
+                margin-bottom: 15px;
+            }
+            
+            .note {
+                font-size: 12px;
+            }
+            
+            .large-input {
+                min-height: 60px;
+                font-size: 13px;
+                margin-bottom: 15px;
+            }
+            
+            .footer {
+                margin-top: 20px;
+                font-size: 12px;
             }
             
             .action-button {
@@ -383,24 +434,17 @@
                 font-size: 13px;
                 padding: 8px 10px;
             }
-            
-            .large-input {
-                min-height: 70px;
-                font-size: 13px;
-            }
         }
         
         /* Адаптация для телефонов (альбомная ориентация) */
         @media (max-width: 900px) and (orientation: landscape) {
             body {
                 padding: 5px;
-                zoom: 0.85;
             }
             
             .container {
                 max-width: 100%;
-                transform: scale(0.9);
-                transform-origin: top center;
+                transform: none;
             }
             
             .page {
@@ -445,20 +489,12 @@
         
         /* Адаптация для очень маленьких экранов */
         @media (max-width: 400px) and (orientation: portrait) {
-            body {
-                zoom: 0.8;
-            }
-            
-            .container {
-                transform: scale(0.85);
-            }
-            
             .header h1 {
-                font-size: 18px;
+                font-size: 16px;
             }
             
             .section-title {
-                font-size: 16px;
+                font-size: 15px;
             }
             
             .habit-input {
@@ -472,6 +508,10 @@
             
             .day-label {
                 font-size: 8px;
+            }
+            
+            .goal-input, .step-input {
+                font-size: 11px;
             }
         }
     </style>
@@ -826,22 +866,45 @@
         // Экспорт в PDF с улучшенным качеством
         function exportToPDF() {
             // Создаем новый PDF документ с высоким DPI
-            const doc = new jsPDF('p', 'mm', 'a4');
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4',
+                hotfixes: ["px_scaling"]
+            });
+            
             const options = {
                 scale: 3, // Увеличиваем масштаб для лучшего качества
                 useCORS: true, // Разрешаем кросс-доменные запросы
                 allowTaint: true, // Разрешаем "загрязнение" canvas
-                backgroundColor: null, // Прозрачный фон
+                backgroundColor: '#FFFFFF', // Белый фон
                 logging: false, // Отключаем логирование
+                scrollX: 0,
+                scrollY: 0,
+                windowWidth: document.documentElement.scrollWidth,
+                windowHeight: document.documentElement.scrollHeight
             };
             
             // Функция для добавления страницы с отступами
             const addPageToPDF = (element, isLastPage = false) => {
                 return new Promise((resolve) => {
+                    // Временно скрываем кнопки для PDF
+                    const buttons = document.querySelector('.action-buttons');
+                    const buttonsDisplay = buttons.style.display;
+                    buttons.style.display = 'none';
+                    
+                    // Устанавливаем белый фон для страницы
+                    const originalBg = element.style.backgroundColor;
+                    element.style.backgroundColor = '#FFFFFF';
+                    
                     html2canvas(element, options).then(canvas => {
+                        // Восстанавливаем оригинальные стили
+                        buttons.style.display = buttonsDisplay;
+                        element.style.backgroundColor = originalBg;
+                        
                         const imgData = canvas.toDataURL('image/png', 1.0);
                         const imgWidth = 210; // Ширина A4 в мм
-                        const pageHeight = 295; // Высота A4 в мм
+                        const pageHeight = 297; // Высота A4 в мм
                         const imgHeight = canvas.height * imgWidth / canvas.width;
                         
                         // Добавляем изображение на новую страницу
@@ -852,6 +915,10 @@
                             doc.addPage();
                         }
                         
+                        resolve();
+                    }).catch(err => {
+                        console.error('Ошибка при создании PDF:', err);
+                        alert('Произошла ошибка при создании PDF. Пожалуйста, попробуйте снова.');
                         resolve();
                     });
                 });
