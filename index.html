@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Финансовый план на неделю</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Базовые стили */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'PT Sans', sans-serif;
+            background-color: #f9f9f9;
+            color: #000;
+            line-height: 1.4;
+            padding: 10px;
+            max-width: 100%;
+            touch-action: manipulation;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        /* Общие стили для заголовков */
+        h1, h2, h3 {
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+        
+        /* Контейнер для контента */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* Страницы */
+        .page {
+            width: 100%;
+            margin-bottom: 20px;
+            flex: 0 0 auto;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            background: white;
+            padding: 15px;
+            position: relative;
+        }
+        
+        /* Шапка документа */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        /* Блок с датами */
+        .date-range {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .date-input {
+            border: none;
+            border-bottom: 1px solid #000;
+            font-size: 16px;
+            text-align: center;
+            width: 180px;
+            background: transparent;
+            font-family: inherit;
+            padding: 5px 0;
+        }
+        
+        /* Секция привычек */
+        .habits-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        /* Строка с привычкой */
+        .habit-row {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        /* Поле ввода привычки */
+        .habit-input {
+            width: 50%;
+            height: 40px;
+            border: none;
+            border-bottom: 1px solid #000;
+            background: transparent;
+            resize: none;
+            font-family: inherit;
+            padding: 5px 10px;
+            margin-right: 10px;
+            font-size: 16px;
+            -webkit-appearance: none;
+        }
+        
+        /* Контейнер для дней недели */
+        .days-container {
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        /* Контейнер для дня и подписи */
+        .day-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Подпись дня недели */
+        .day-label {
+            font-size: 10px;
+            margin-top: 2px;
+            text-transform: lowercase;
+        }
+        
+        /* Чекбокс */
+        .day-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 1px solid #000;
+            position: relative;
+            border-radius: 0;
+        }
+        
+        .day-checkbox:checked::after {
+            content: "✓";
+            color: #000;
+            font-size: 16px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Секция целей */
+        .goals-section {
+            margin-bottom: 30px;
+        }
+        
+        .focus-question {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Контейнер для целей */
+        .goals-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        /* Колонка с целью */
+        .goal-column {
+            width: 32%;
+            margin-bottom: 15px;
+        }
+        
+        /* Поле ввода цели */
+        .goal-input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #000;
+            background: transparent;
+            font-family: inherit;
+            font-weight: bold;
+            padding: 5px 0;
+            margin-bottom: 10px;
+            font-size: 14px;
+            -webkit-appearance: none;
+        }
+        
+        /* Поле ввода этапа */
+        .step-input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px dashed #000;
+            background: transparent;
+            font-family: inherit;
+            padding: 5px 0;
+            margin-bottom: 8px;
+            font-size: 12px;
+            -webkit-appearance: none;
+        }
+        
+        /* Большие поля ввода */
+        .large-input {
+            width: 100%;
+            height: 60px;
+            border: none;
+            border-bottom: 1px solid #000;
+            background: transparent;
+            resize: none;
+            font-family: inherit;
+            padding: 5px 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            -webkit-appearance: none;
+        }
+        
+        /* Разделитель */
+        .divider {
+            border-top: 1px solid #000;
+            margin: 20px 0;
+        }
+        
+        /* Подсказки */
+        .note {
+            font-style: italic;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        /* Подвал */
+        .footer {
+            text-align: center;
+            font-style: italic;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+        
+        /* Кнопки действий */
+        .action-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .action-button {
+            padding: 10px 15px;
+            background: #000;
+            color: white;
+            border: none;
+            font-family: inherit;
+            text-transform: uppercase;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        /* Адаптация для мобильных (книжная ориентация) */
+        @media (max-width: 600px) and (orientation: portrait) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                max-width: 100%;
+            }
+            
+            .page {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .habit-row {
+                flex-direction: column;
+            }
+            
+            .habit-input,
+            .days-container {
+                width: 100%;
+            }
+            
+            .days-container {
+                margin-top: 10px;
+            }
+            
+            .goal-column {
+                width: 32%;
+                margin-bottom: 15px;
+            }
+            
+            .goals-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .day-checkbox {
+                width: 28px;
+                height: 28px;
+            }
+        }
+        
+        /* Адаптация для мобильных (альбомная ориентация) */
+        @media (max-width: 900px) and (orientation: landscape) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                max-width: 100%;
+            }
+            
+            .page {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .goal-column {
+                width: 32%;
+            }
+            
+            .day-checkbox {
+                width: 22px;
+                height: 22px;
+            }
+        }
+        
+        /* Стили для печати */
+        @media print {
+            body {
+                background-color: transparent;
+                padding: 0;
+                transform: none !important;
+                width: 100% !important;
+            }
+            
+            .container {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            .page {
+                page-break-after: always;
+                margin: 0;
+                padding: 15px;
+                box-shadow: none;
+            }
+            
+            .page:last-child {
+                page-break-after: auto;
+            }
+            
+            .action-buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Первая страница -->
+        <div class="page">
+            <div class="header">
+                <h1>ФИНАНСОВЫЙ ПЛАН НА НЕДЕЛЮ</h1>
+            </div>
+            
+            <div class="date-range">
+                <input type="text" class="date-input" id="dateRange" placeholder="дд.мм - дд.мм">
+            </div>
+            
+            <!-- Трекер привычек -->
+            <div class="habits-section">
+                <h2 class="section-title">ТРЕКЕР ПРИВЫЧЕК</h2>
+                
+                <!-- Привычка 1 -->
+                <div class="habit-row">
+                    <textarea class="habit-input" placeholder="Привычка 1" id="habit1"></textarea>
+                    <div class="days-container">
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-mon">
+                            <span class="day-label">пн</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-tue">
+                            <span class="day-label">вт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-wed">
+                            <span class="day-label">ср</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-thu">
+                            <span class="day-label">чт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-fri">
+                            <span class="day-label">пт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-sat">
+                            <span class="day-label">сб</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-sun">
+                            <span class="day-label">вс</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Привычка 2 -->
+                <div class="habit-row">
+                    <textarea class="habit-input" placeholder="Привычка 2" id="habit2"></textarea>
+                    <div class="days-container">
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit2-mon">
+                            <span class="day-label">пн</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit2-tue">
+                            <span class="day-label">вт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit2-wed">
+                            <span class="day-label">ср</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit2-thu">
+                            <span class="day-label">чт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit2-fri">
+                            <span class="day-label">пт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit2-sat">
+                            <span class="day-label">сб</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit2-sun">
+                            <span class="day-label">вс</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Привычка 3 -->
+                <div class="habit-row">
+                    <textarea class="habit-input" placeholder="Привычка 3" id="habit3"></textarea>
+                    <div class="days-container">
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit3-mon">
+                            <span class="day-label">пн</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit3-tue">
+                            <span class="day-label">вт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit3-wed">
+                            <span class="day-label">ср</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit3-thu">
+                            <span class="day-label">чт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit3-fri">
+                            <span class="day-label">пт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit3-sat">
+                            <span class="day-label">сб</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit3-sun">
+                            <span class="day-label">вс</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Фокус недели -->
+            <div class="goals-section">
+                <h2 class="section-title">ФОКУС НЕДЕЛИ</h2>
+                <p class="focus-question">На чем ты сконцентрируешься на этой неделе? Выбери три главные цели.</p>
+                
+                <div class="goals-container">
+                    <!-- Цель 1 -->
+                    <div class="goal-column">
+                        <input type="text" class="goal-input" placeholder="ЦЕЛЬ 1" id="goal1">
+                        <p class="note">Этапы достижения</p>
+                        <input type="text" class="step-input" placeholder="○" id="goal1-step1">
+                        <input type="text" class="step-input" placeholder="○" id="goal1-step2">
+                        <input type="text" class="step-input" placeholder="○" id="goal1-step3">
+                    </div>
+                    
+                    <!-- Цель 2 -->
+                    <div class="goal-column">
+                        <input type="text" class="goal-input" placeholder="ЦЕЛЬ 2" id="goal2">
+                        <p class="note">Этапы достижения</p>
+                        <input type="text" class="step-input" placeholder="○" id="goal2-step1">
+                        <input type="text" class="step-input" placeholder="○" id="goal2-step2">
+                        <input type="text" class="step-input" placeholder="○" id="goal2-step3">
+                    </div>
+                    
+                    <!-- Цель 3 -->
+                    <div class="goal-column">
+                        <input type="text" class="goal-input" placeholder="ЦЕЛЬ 3" id="goal3">
+                        <p class="note">Этапы достижения</p>
+                        <input type="text" class="step-input" placeholder="○" id="goal3-step1">
+                        <input type="text" class="step-input" placeholder="○" id="goal3-step2">
+                        <input type="text" class="step-input" placeholder="○" id="goal3-step3">
+                    </div>
+                </div>
+                
+                <div class="footer">
+                    Институт Богатых и Красивых Екатерины Образцовой
+                </div>
+            </div>
+        </div>
+        
+        <!-- Вторая страница -->
+        <div class="page">
+            <h2 class="section-title">НАМЕРЕНИЕ:</h2>
+            <p class="note">Цель в действии<br>+ состояние в котором мы это будем делать.</p>
+            <p class="note"><strong>Важный момент:</strong> намерение всегда ставится из позиции быть (а не иметь).</p>
+            
+            <textarea class="large-input" placeholder="Ваше намерение" id="intention"></textarea>
+            
+            <div class="divider"></div>
+            
+            <h2 class="section-title">НАГРАДА</h2>
+            <p class="note">Чем я себя награжу за следование своим целям?</p>
+            <textarea class="large-input" placeholder="Ваша награда" id="reward"></textarea>
+            
+            <div class="divider"></div>
+            
+            <h2 class="section-title">РЕФЛЕКСИЯ</h2>
+            <p class="note">Что у меня хорошо получилось сделать на этой неделе?</p>
+            <textarea class="large-input" placeholder="Ваши успехи" id="successes"></textarea>
+            
+            <p class="note">Что я сделаю по-другому на следующей неделе?</p>
+            <textarea class="large-input" placeholder="Ваши планы на улучшения" id="improvements"></textarea>
+            
+            <div class="action-buttons">
+                <button class="action-button" id="saveData">Сохранить</button>
+                <button class="action-button" id="clearData">Очистить</button>
+                <button class="action-button" id="printData">Печать</button>
+            </div>
+            
+            <div class="footer">
+                Институт Богатых и Красивых<br>
+                Екатерины Образцовой<br><br>
+                ©ФИНАНСОВЫЙ ПЛАН НА НЕДЕЛЮ
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Установка дат текущей недели
+        function setCurrentWeekDates() {
+            const now = new Date();
+            const dayOfWeek = now.getDay(); // 0 (воскресенье) до 6 (суббота)
+            const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+            
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + diffToMonday);
+            
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+            
+            // Форматирование дат
+            const formatDate = (date) => {
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                return `${day}.${month}`;
+            };
+            
+            document.getElementById('dateRange').value = `${formatDate(monday)} - ${formatDate(sunday)}`;
+        }
+        
+        // Сохранение всех данных
+        function saveAllData() {
+            const elements = [
+                'dateRange', 'intention', 'reward', 'successes', 'improvements',
+                'habit1', 'habit2', 'habit3',
+                'goal1', 'goal1-step1', 'goal1-step2', 'goal1-step3',
+                'goal2', 'goal2-step1', 'goal2-step2', 'goal2-step3',
+                'goal3', 'goal3-step1', 'goal3-step2', 'goal3-step3',
+                'habit1-mon', 'habit1-tue', 'habit1-wed', 'habit1-thu', 'habit1-fri', 'habit1-sat', 'habit1-sun',
+                'habit2-mon', 'habit2-tue', 'habit2-wed', 'habit2-thu', 'habit2-fri', 'habit2-sat', 'habit2-sun',
+                'habit3-mon', 'habit3-tue', 'habit3-wed', 'habit3-thu', 'habit3-fri', 'habit3-sat', 'habit3-sun'
+            ];
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const value = element.type === 'checkbox' ? element.checked : element.value;
+                    localStorage.setItem(id, value);
+                }
+            });
+            
+            alert('Данные сохранены!');
+        }
+        
+        // Очистка всех данных
+        function clearAllData() {
+            if (confirm('Вы уверены, что хотите очистить все данные? Это действие нельзя отменить.')) {
+                const elements = [
+                    'dateRange', 'intention', 'reward', 'successes', 'improvements',
+                    'habit1', 'habit2', 'habit3',
+                    'goal1', 'goal1-step1', 'goal1-step2', 'goal1-step3',
+                    'goal2', 'goal2-step1', 'goal2-step2', 'goal2-step3',
+                    'goal3', 'goal3-step1', 'goal3-step2', 'goal3-step3',
+                    'habit1-mon', 'habit1-tue', 'habit1-wed', 'habit1-thu', 'habit1-fri', 'habit1-sat', 'habit1-sun',
+                    'habit2-mon', 'habit2-tue', 'habit2-wed', 'habit2-thu', 'habit2-fri', 'habit2-sat', 'habit2-sun',
+                    'habit3-mon', 'habit3-tue', 'habit3-wed', 'habit3-thu', 'habit3-fri', 'habit3-sat', 'habit3-sun'
+                ];
+                
+                elements.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (element.type === 'checkbox') {
+                            element.checked = false;
+                        } else {
+                            element.value = '';
+                        }
+                        localStorage.removeItem(id);
+                    }
+                });
+                
+                // Установим текущие даты после очистки
+                setCurrentWeekDates();
+                
+                alert('Все данные очищены!');
+            }
+        }
+        
+        // Загрузка сохраненных данных
+        function loadSavedData() {
+            const elements = [
+                'dateRange', 'intention', 'reward', 'successes', 'improvements',
+                'habit1', 'habit2', 'habit3',
+                'goal1', 'goal1-step1', 'goal1-step2', 'goal1-step3',
+                'goal2', 'goal2-step1', 'goal2-step2', 'goal2-step3',
+                'goal3', 'goal3-step1', 'goal3-step2', 'goal3-step3',
+                'habit1-mon', 'habit1-tue', 'habit1-wed', 'habit1-thu', 'habit1-fri', 'habit1-sat', 'habit1-sun',
+                'habit2-mon', 'habit2-tue', 'habit2-wed', 'habit2-thu', 'habit2-fri', 'habit2-sat', 'habit2-sun',
+                'habit3-mon', 'habit3-tue', 'habit3-wed', 'habit3-thu', 'habit3-fri', 'habit3-sat', 'habit3-sun'
+            ];
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const savedValue = localStorage.getItem(id);
+                    if (savedValue !== null) {
+                        if (element.type === 'checkbox') {
+                            element.checked = savedValue === 'true';
+                        } else {
+                            element.value = savedValue;
+                        }
+                    }
+                }
+            });
+            
+            // Если даты не сохранены, установим текущие
+            if (!localStorage.getItem('dateRange')) {
+                setCurrentWeekDates();
+            }
+        }
+        
+        // Автосохранение данных при изменении
+        function setupAutosave() {
+            const elements = [
+                'dateRange', 'intention', 'reward', 'successes', 'improvements',
+                'habit1', 'habit2', 'habit3',
+                'goal1', 'goal1-step1', 'goal1-step2', 'goal1-step3',
+                'goal2', 'goal2-step1', 'goal2-step2', 'goal2-step3',
+                'goal3', 'goal3-step1', 'goal3-step2', 'goal3-step3',
+                'habit1-mon', 'habit1-tue', 'habit1-wed', 'habit1-thu', 'habit1-fri', 'habit1-sat', 'habit1-sun',
+                'habit2-mon', 'habit2-tue', 'habit2-wed', 'habit2-thu', 'habit2-fri', 'habit2-sat', 'habit2-sun',
+                'habit3-mon', 'habit3-tue', 'habit3-wed', 'habit3-thu', 'habit3-fri', 'habit3-sat', 'habit3-sun'
+            ];
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const save = () => {
+                        const value = element.type === 'checkbox' ? element.checked : element.value;
+                        localStorage.setItem(id, value);
+                    };
+                    
+                    element.addEventListener('change', save);
+                    
+                    // Для текстовых полей сохраняем при вводе
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.addEventListener('input', save);
+                    }
+                }
+            });
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            // Загружаем сохраненные данные
+            loadSavedData();
+            
+            // Настраиваем автосохранение
+            setupAutosave();
+            
+            // Кнопка сохранения
+            document.getElementById('saveData').addEventListener('click', saveAllData);
+            
+            // Кнопка очистки
+            document.getElementById('clearData').addEventListener('click', clearAllData);
+            
+            // Кнопка печати
+            document.getElementById('printData').addEventListener('click', () => {
+                window.print();
+            });
+            
+            // Улучшение работы на мобильных устройствах
+            if ('ontouchstart' in window) {
+                // Увеличиваем область нажатия для чекбоксов
+                document.querySelectorAll('.day-wrapper').forEach(wrapper => {
+                    wrapper.style.padding = '5px';
+                });
+                
+                // Предотвращаем увеличение при фокусе на iOS
+                document.querySelectorAll('input, textarea, select').forEach(el => {
+                    el.style.fontSize = '16px';
+                });
+            }
+            
+            // Добавляем поддержку PWA (Progressive Web App)
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js').then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    }).catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
