@@ -7,6 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title>Финансовый план на неделю</title>
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -19,7 +20,7 @@
         }
         
         body {
-            font-family: 'PT Sans', sans-serif;
+            font-family: 'Roboto', 'PT Sans', sans-serif;
             background-color: #f9f9f9;
             color: #000;
             line-height: 1.4;
@@ -27,6 +28,7 @@
             max-width: 100%;
             touch-action: manipulation;
             -webkit-text-size-adjust: 100%;
+            -webkit-print-color-adjust: exact;
         }
         
         /* Общие стили для заголовков */
@@ -285,6 +287,8 @@
                 padding: 0;
                 transform: none !important;
                 width: 100% !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             
             .container {
@@ -298,6 +302,8 @@
                 padding: 15px;
                 box-shadow: none;
                 background: transparent;
+                width: 100%;
+                height: 100vh;
             }
             
             .page:last-child {
@@ -897,10 +903,33 @@
                     const originalBg = element.style.backgroundColor;
                     element.style.backgroundColor = '#FFFFFF';
                     
+                    // Устанавливаем фиксированные размеры для PDF
+                    const originalWidth = element.style.width;
+                    const originalHeight = element.style.height;
+                    element.style.width = '210mm';
+                    element.style.height = '297mm';
+                    
+                    // Применяем стили для печати
+                    const originalBodyStyles = {
+                        padding: document.body.style.padding,
+                        margin: document.body.style.margin,
+                        background: document.body.style.background
+                    };
+                    
+                    document.body.style.padding = '0';
+                    document.body.style.margin = '0';
+                    document.body.style.background = 'white';
+                    
                     html2canvas(element, options).then(canvas => {
                         // Восстанавливаем оригинальные стили
                         buttons.style.display = buttonsDisplay;
                         element.style.backgroundColor = originalBg;
+                        element.style.width = originalWidth;
+                        element.style.height = originalHeight;
+                        
+                        document.body.style.padding = originalBodyStyles.padding;
+                        document.body.style.margin = originalBodyStyles.margin;
+                        document.body.style.background = originalBodyStyles.background;
                         
                         const imgData = canvas.toDataURL('image/png', 1.0);
                         const imgWidth = 210; // Ширина A4 в мм
@@ -926,7 +955,7 @@
             
             // Последовательно добавляем страницы
             addPageToPDF(document.getElementById('page1'))
-                .then(() => addPageToPDF(document.getElementById('page2'), true))
+                .then(() => addPageToPDF(document.getElementById('page2'), true)
                 .then(() => {
                     // Сохраняем PDF
                     doc.save('Финансовый_план_на_неделю.pdf');
