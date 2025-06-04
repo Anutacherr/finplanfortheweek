@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Финансовый план на неделю</title>
 
     <!-- Шрифты -->
@@ -18,7 +18,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -34,25 +33,21 @@
             margin: 0 auto;
         }
 
-        /* Страницы */
         .page {
             width: 100%;
             margin-bottom: 40px;
             background: white;
             padding: 20px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             border-radius: 6px;
         }
 
-        /* Заголовок */
         .header h1 {
             text-align: center;
             font-size: 24px;
             margin-bottom: 10px;
-            text-transform: uppercase;
         }
 
-        /* Блок дат */
         .date-range {
             text-align: center;
             margin-bottom: 25px;
@@ -68,7 +63,6 @@
             padding: 5px 0;
         }
 
-        /* Трекер привычек */
         .habits-section {
             margin-bottom: 30px;
         }
@@ -132,7 +126,6 @@
             text-transform: lowercase;
         }
 
-        /* Цели */
         .goals-container {
             display: flex;
             justify-content: space-between;
@@ -174,14 +167,12 @@
             margin: 20px 0;
         }
 
-        /* Подвал */
         .footer {
             text-align: center;
             font-size: 12px;
             margin-top: 30px;
         }
 
-        /* Кнопки действий */
         .action-buttons {
             display: flex;
             justify-content: space-around;
@@ -205,8 +196,8 @@
             text-align: center;
         }
 
-        /* Стили для печати */
         @media print {
+            .action-buttons { display: none; }
             .page {
                 page-break-after: always;
                 width: 210mm;
@@ -216,9 +207,26 @@
                 box-shadow: none;
                 background: white;
             }
-            .action-buttons {
-                display: none;
-            }
+        }
+
+        /* Тост-уведомления */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
         }
     </style>
 </head>
@@ -227,21 +235,43 @@
         <!-- Первая страница -->
         <div class="page" id="page1">
             <div class="header"><h1>ФИНАНСОВЫЙ ПЛАН НА НЕДЕЛЮ</h1></div>
-            <div class="date-range"><input type="text" class="date-input" id="dateRange" placeholder="дд.мм - дд.мм"></div>
+            <div class="date-range">
+                <input type="text" class="date-input" id="dateRange" placeholder="дд.мм - дд.мм">
+            </div>
 
-            <!-- Трекер привычек -->
             <div class="habits-section">
                 <h2 class="section-title">ТРЕКЕР ПРИВЫЧЕК</h2>
                 <div class="habit-row">
                     <textarea class="habit-input" placeholder="Привычка 1" id="habit1"></textarea>
                     <div class="days-container">
-                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-mon"><span class="day-label">пн</span></div>
-                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-tue"><span class="day-label">вт</span></div>
-                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-wed"><span class="day-label">ср</span></div>
-                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-thu"><span class="day-label">чт</span></div>
-                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-fri"><span class="day-label">пт</span></div>
-                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-sat"><span class="day-label">сб</span></div>
-                        <div class="day-wrapper"><input type="checkbox" class="day-checkbox" id="habit1-sun"><span class="day-label">вс</span></div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-mon">
+                            <span class="day-label">пн</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-tue">
+                            <span class="day-label">вт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-wed">
+                            <span class="day-label">ср</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-thu">
+                            <span class="day-label">чт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-fri">
+                            <span class="day-label">пт</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-sat">
+                            <span class="day-label">сб</span>
+                        </div>
+                        <div class="day-wrapper">
+                            <input type="checkbox" class="day-checkbox" id="habit1-sun">
+                            <span class="day-label">вс</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -252,10 +282,12 @@
             <h2 class="section-title">НАМЕРЕНИЕ:</h2>
             <p class="note">Цель в действии<br>+ состояние в котором мы это будем делать.</p>
             <textarea class="large-input" placeholder="Ваше намерение" id="intention"></textarea>
+
             <div class="divider"></div>
             <h2 class="section-title">НАГРАДА</h2>
             <p class="note">Чем я себя награжу за следование своим целям?</p>
             <textarea class="large-input" placeholder="Ваша награда" id="reward"></textarea>
+
             <div class="action-buttons">
                 <button class="action-button" id="saveData">Сохранить</button>
                 <button class="action-button" id="clearData">Очистить</button>
@@ -265,6 +297,8 @@
             </div>
         </div>
     </div>
+
+    <div class="notification" id="toast"></div>
 
     <script>
         const { jsPDF } = window.jspdf;
@@ -276,7 +310,7 @@
         }
 
         document.querySelectorAll('textarea').forEach(autoResizeTextarea);
-        document.querySelectorAll('textarea').forEach(t => t.addEventListener('input', () => autoResizeTextarea(t)));
+        document.querySelectorAll('textarea').forEach(ta => ta.addEventListener('input', () => autoResizeTextarea(ta)));
 
         // Сохранение данных
         function saveAllData() {
@@ -284,6 +318,7 @@
                 if (el.type === 'checkbox') localStorage.setItem(el.id, el.checked);
                 else localStorage.setItem(el.id, el.value);
             });
+            showToast('✅ Сохранено');
         }
 
         // Очистка данных
@@ -294,6 +329,7 @@
                     else el.value = '';
                     localStorage.removeItem(el.id);
                 });
+                showToast('🗑 Очищено');
             }
         }
 
@@ -322,7 +358,7 @@
                     const imgData = canvas.toDataURL('image/png');
                     const imgWidth = 210;
                     const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, '', 'FAST');
+                    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
                     if (page.id !== 'page2') doc.addPage();
                 });
             }
@@ -346,6 +382,16 @@
             }
 
             buttons.style.display = originalDisplay;
+        }
+
+        // Тост-уведомление
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
         }
 
         // Инициализация
