@@ -7,6 +7,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title>Финансовый план на неделю</title>
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* Базовые стили */
         * {
@@ -102,7 +104,7 @@
         /* Поле ввода привычки */
         .habit-input {
             width: 50%;
-            height: 40px;
+            min-height: 60px; /* Увеличиваем высоту для 3 строк */
             border: none;
             border-bottom: 1px solid #000;
             background: transparent;
@@ -110,8 +112,9 @@
             font-family: inherit;
             padding: 5px 10px;
             margin-right: 10px;
-            font-size: 16px;
+            font-size: 14px; /* Уменьшаем размер шрифта */
             -webkit-appearance: none;
+            line-height: 1.3;
         }
         
         /* Контейнер для дней недели */
@@ -184,34 +187,40 @@
         /* Поле ввода цели */
         .goal-input {
             width: 100%;
+            min-height: 60px; /* Увеличиваем высоту для 3 строк */
             border: none;
             border-bottom: 1px solid #000;
             background: transparent;
+            resize: none;
             font-family: inherit;
             font-weight: bold;
             padding: 5px 0;
             margin-bottom: 10px;
-            font-size: 14px;
+            font-size: 14px; /* Уменьшаем размер шрифта */
             -webkit-appearance: none;
+            line-height: 1.3;
         }
         
         /* Поле ввода этапа */
         .step-input {
             width: 100%;
+            min-height: 40px; /* Увеличиваем высоту */
             border: none;
             border-bottom: 1px dashed #000;
             background: transparent;
+            resize: none;
             font-family: inherit;
             padding: 5px 0;
             margin-bottom: 8px;
             font-size: 12px;
             -webkit-appearance: none;
+            line-height: 1.3;
         }
         
         /* Большие поля ввода */
         .large-input {
             width: 100%;
-            height: 60px;
+            min-height: 80px; /* Увеличиваем высоту для 3 строк */
             border: none;
             border-bottom: 1px solid #000;
             background: transparent;
@@ -219,8 +228,9 @@
             font-family: inherit;
             padding: 5px 10px;
             margin-bottom: 20px;
-            font-size: 16px;
+            font-size: 14px; /* Уменьшаем размер шрифта */
             -webkit-appearance: none;
+            line-height: 1.3;
         }
         
         /* Разделитель */
@@ -249,6 +259,8 @@
             display: flex;
             justify-content: space-around;
             margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .action-button {
@@ -260,83 +272,10 @@
             text-transform: uppercase;
             font-size: 14px;
             cursor: pointer;
-        }
-        
-        /* Адаптация для мобильных (книжная ориентация) */
-        @media (max-width: 600px) and (orientation: portrait) {
-            body {
-                padding: 5px;
-            }
-            
-            .container {
-                max-width: 100%;
-            }
-            
-            .page {
-                padding: 10px;
-                margin-bottom: 10px;
-            }
-            
-            .header h1 {
-                font-size: 20px;
-            }
-            
-            .habit-row {
-                flex-direction: column;
-            }
-            
-            .habit-input,
-            .days-container {
-                width: 100%;
-            }
-            
-            .days-container {
-                margin-top: 10px;
-            }
-            
-            .goal-column {
-                width: 32%;
-                margin-bottom: 15px;
-            }
-            
-            .goals-container {
-                flex-direction: row;
-                justify-content: space-between;
-            }
-            
-            .day-checkbox {
-                width: 28px;
-                height: 28px;
-            }
-        }
-        
-        /* Адаптация для мобильных (альбомная ориентация) */
-        @media (max-width: 900px) and (orientation: landscape) {
-            body {
-                padding: 5px;
-            }
-            
-            .container {
-                max-width: 100%;
-            }
-            
-            .page {
-                padding: 10px;
-                margin-bottom: 10px;
-            }
-            
-            .header h1 {
-                font-size: 20px;
-            }
-            
-            .goal-column {
-                width: 32%;
-            }
-            
-            .day-checkbox {
-                width: 22px;
-                height: 22px;
-            }
+            border-radius: 4px;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
         }
         
         /* Стили для печати */
@@ -368,12 +307,112 @@
                 display: none;
             }
         }
+        
+        /* Адаптация для компьютеров */
+        @media (min-width: 901px) {
+            .goals-container {
+                flex-direction: row;
+            }
+            .goal-column {
+                width: 32%;
+            }
+        }
+        
+        /* Адаптация для телефонов (книжная ориентация) */
+        @media (max-width: 600px) and (orientation: portrait) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                max-width: 100%;
+            }
+            
+            .page {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .habit-row {
+                flex-direction: column;
+            }
+            
+            .habit-input,
+            .days-container {
+                width: 100%;
+            }
+            
+            .days-container {
+                margin-top: 10px;
+            }
+            
+            .goals-container {
+                flex-direction: column;
+            }
+            
+            .goal-column {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .day-checkbox {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .action-button {
+                min-width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+        
+        /* Адаптация для телефонов (альбомная ориентация) */
+        @media (max-width: 900px) and (orientation: landscape) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                max-width: 100%;
+            }
+            
+            .page {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .goals-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .goal-column {
+                width: 32%;
+            }
+            
+            .day-checkbox {
+                width: 22px;
+                height: 22px;
+            }
+            
+            .action-button {
+                min-width: 30%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Первая страница -->
-        <div class="page">
+        <div class="page" id="page1">
             <div class="header">
                 <h1>ФИНАНСОВЫЙ ПЛАН НА НЕДЕЛЮ</h1>
             </div>
@@ -500,29 +539,29 @@
                 <div class="goals-container">
                     <!-- Цель 1 -->
                     <div class="goal-column">
-                        <input type="text" class="goal-input" placeholder="ЦЕЛЬ 1" id="goal1">
+                        <textarea class="goal-input" placeholder="ЦЕЛЬ 1" id="goal1"></textarea>
                         <p class="note">Этапы достижения</p>
-                        <input type="text" class="step-input" placeholder="○" id="goal1-step1">
-                        <input type="text" class="step-input" placeholder="○" id="goal1-step2">
-                        <input type="text" class="step-input" placeholder="○" id="goal1-step3">
+                        <textarea class="step-input" placeholder="○" id="goal1-step1"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal1-step2"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal1-step3"></textarea>
                     </div>
                     
                     <!-- Цель 2 -->
                     <div class="goal-column">
-                        <input type="text" class="goal-input" placeholder="ЦЕЛЬ 2" id="goal2">
+                        <textarea class="goal-input" placeholder="ЦЕЛЬ 2" id="goal2"></textarea>
                         <p class="note">Этапы достижения</p>
-                        <input type="text" class="step-input" placeholder="○" id="goal2-step1">
-                        <input type="text" class="step-input" placeholder="○" id="goal2-step2">
-                        <input type="text" class="step-input" placeholder="○" id="goal2-step3">
+                        <textarea class="step-input" placeholder="○" id="goal2-step1"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal2-step2"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal2-step3"></textarea>
                     </div>
                     
                     <!-- Цель 3 -->
                     <div class="goal-column">
-                        <input type="text" class="goal-input" placeholder="ЦЕЛЬ 3" id="goal3">
+                        <textarea class="goal-input" placeholder="ЦЕЛЬ 3" id="goal3"></textarea>
                         <p class="note">Этапы достижения</p>
-                        <input type="text" class="step-input" placeholder="○" id="goal3-step1">
-                        <input type="text" class="step-input" placeholder="○" id="goal3-step2">
-                        <input type="text" class="step-input" placeholder="○" id="goal3-step3">
+                        <textarea class="step-input" placeholder="○" id="goal3-step1"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal3-step2"></textarea>
+                        <textarea class="step-input" placeholder="○" id="goal3-step3"></textarea>
                     </div>
                 </div>
                 
@@ -533,7 +572,7 @@
         </div>
         
         <!-- Вторая страница -->
-        <div class="page">
+        <div class="page" id="page2">
             <h2 class="section-title">НАМЕРЕНИЕ:</h2>
             <p class="note">Цель в действии<br>+ состояние в котором мы это будем делать.</p>
             <p class="note"><strong>Важный момент:</strong> намерение всегда ставится из позиции быть (а не иметь).</p>
@@ -559,6 +598,7 @@
                 <button class="action-button" id="saveData">Сохранить</button>
                 <button class="action-button" id="clearData">Очистить</button>
                 <button class="action-button" id="printData">Печать</button>
+                <button class="action-button" id="exportPDF">Сохранить в PDF</button>
             </div>
             
             <div class="footer">
@@ -570,6 +610,9 @@
     </div>
 
     <script>
+        // Инициализация jsPDF
+        const { jsPDF } = window.jspdf;
+        
         // Установка дат текущей недели
         function setCurrentWeekDates() {
             const now = new Date();
@@ -713,6 +756,40 @@
             });
         }
         
+        // Экспорт в PDF
+        function exportToPDF() {
+            // Создаем новый PDF документ
+            const doc = new jsPDF('p', 'mm', 'a4');
+            
+            // Добавляем первую страницу
+            html2canvas(document.getElementById('page1')).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 295; // A4 height in mm
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                
+                doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                
+                // Добавляем вторую страницу
+                html2canvas(document.getElementById('page2')).then(canvas2 => {
+                    const imgData2 = canvas2.toDataURL('image/png');
+                    const imgHeight2 = canvas2.height * imgWidth / canvas2.width;
+                    
+                    // Если вторая страница слишком высокая, разбиваем на несколько страниц
+                    let heightLeft = imgHeight2;
+                    let position = 0;
+                    
+                    doc.addPage();
+                    position = heightLeft - pageHeight;
+                    
+                    doc.addImage(imgData2, 'PNG', 0, -position, imgWidth, imgHeight2);
+                    
+                    // Сохраняем PDF
+                    doc.save('Финансовый_план_на_неделю.pdf');
+                });
+            });
+        }
+        
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', () => {
             // Загружаем сохраненные данные
@@ -731,6 +808,9 @@
             document.getElementById('printData').addEventListener('click', () => {
                 window.print();
             });
+            
+            // Кнопка экспорта в PDF
+            document.getElementById('exportPDF').addEventListener('click', exportToPDF);
             
             // Улучшение работы на мобильных устройствах
             if ('ontouchstart' in window) {
