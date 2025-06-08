@@ -1,0 +1,86 @@
+{
+  "name": "db-course-front",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@fontsource/roboto": "^5.1.0",
+    "@mui/icons-material": "^6.1.7",
+    "@mui/lab": "^6.0.0-beta.16",
+    "@mui/material": "^6.1.8",
+    "@mui/styled-engine-sc": "^6.1.7",
+    "@mui/x-date-pickers": "^7.22.3",
+    "@reduxjs/toolkit": "^2.0.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@twa-dev/sdk": "^8.0.2",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.68",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "axios": "^1.7.7",
+    "buffer": "^6.0.3",
+    "dayjs": "^1.11.13",
+    "firebase": "^9.2.0",
+    "fs": "^0.0.1-security",
+    "fs-extra": "^11.2.0",
+    "html2canvas": "^1.4.1",
+    "json-loader": "^0.5.7",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
+    "next-images": "^1.8.5",
+    "node-sass": "^7.0.3",
+    "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-confirm-alert": "^3.0.6",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
+    "react-redux": "^9.0.4",
+    "react-router-dom": "^6.20.1",
+    "react-scripts": "5.0.1",
+    "react-select": "^5.8.2",
+    "react-toastify": "^11.0.5",
+    "store": "^2.0.12",
+    "styled-component": "^2.8.0",
+    "timers-browserify": "^2.0.12",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5",
+    "xml2js": "^0.6.2"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/html2canvas": "^1.0.0",
+    "@types/react-beautiful-dnd": "^13.1.8",
+    "@types/xml2js": "^0.4.14",
+    "react-app-rewired": "^2.2.1",
+    "vite-plugin-svgr": "^4.3.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  }
+}
